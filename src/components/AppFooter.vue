@@ -61,3 +61,9 @@
 <script>
 export default { name: 'AppFooter' }
 </script>
+
+<style scoped>
+.footer {
+  background: #0A0A19;
+}
+</style>

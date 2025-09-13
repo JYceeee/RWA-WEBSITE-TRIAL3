@@ -45,7 +45,8 @@
         </div>
       </div>
     </div>
-    
+  
+    <!--Primary Section-->
   <div class="mm-page">
     <!-- Account Section -->
     <section class="mm-account-section">
@@ -193,7 +194,7 @@
         </div>
       </div>
       <!-- Tokens 列表 -->
-      <div v-if="activeTab==='tokens'" class="mm-tokenlist">
+        <div v-if="activeTab==='tokens'" class="mm-tokenlist" style="background:#141426;">
         <div class="mm-token">
           <div class="mm-token-left">
             <div class="mm-token-icon mm-eth"></div>
@@ -547,7 +548,7 @@ function onManualWalletConfirm() {
   margin-top: 12px;
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: #fff;
+  background: #0f172a;
   padding: 18px 20px 12px 20px;
   display: flex;
   align-items: center;
@@ -584,13 +585,13 @@ function onManualWalletConfirm() {
   width: 100%;
   height: 38px;
   background: transparent;
-  color: #0f172a;
+  color:#0f172a;
   font-size: 15px;
   padding-left: 2px;
 }
 /* ========== MetaMask-like Design ========== */
 .mm-page{
-  --bg:#fff;
+  --bg:#0A0A19;
   --text:#0f172a;           /* slate-900 */
   --muted:#6b7280;          /* gray-500 */
   --dim:#94a3b8;            /* slate-400 */
@@ -610,7 +611,11 @@ function onManualWalletConfirm() {
 .mm-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
 .mm-account{display:flex;align-items:center;gap:12px;}
 .mm-avatar{width:32px;height:32px;border-radius:50%;background: radial-gradient(100% 100% at 30% 20%, #cfe3ff 0%, #b9c8ff 40%, #9db4ff 100%);}
-.mm-account-title{font-weight:600;}
+.mm-account-title{
+  font-weight:600;
+  color:#FFFFFF;
+}
+
 .mm-account-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
 .mm-addr{max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .mm-link{color:var(--blue);text-decoration:none;cursor:pointer;} /**change the style of this button**/
@@ -620,18 +625,18 @@ function onManualWalletConfirm() {
 .mm-status-text{font-size:14px;color:#334155}
 
 /* 按钮 */
-.mm-btn{border:1px solid var(--border);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14px;}
+ .mm-btn{border:1px solid var(--border);background:#6b7280;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14px;color:#FFFFFF;}
 .mm-btn:hover{opacity:.9;}
 .mm-outline{border-color:var(--border)}
 
 /* 英雄区 */
 .mm-hero{margin-top:8px;}
-.mm-balance{font-size:48px;font-weight:800;letter-spacing:-.02em;}
-.mm-subline{margin-top:6px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;}
+.mm-balance{font-size:48px;font-weight:800;letter-spacing:-.02em;color:#FFFFFF;}
+.mm-subline{margin-top:6px;display:flex;align-items:center;gap:12px;color:#cbd5e1;font-size:14px;}
 
 /* 操作按钮：一行 */
 .mm-actions{display:flex;gap:16px;margin-top:12px;}
-.mm-action{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 0;border:1px solid var(--border);border-radius:16px;background:#fff;cursor:pointer;}
+ .mm-action{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 0;border:none;border-radius:16px;background:#141426;cursor:pointer;color:#FFFFFF;}
 .mm-action-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:700;}
 .mm-action-text{font-size:14px}
 
@@ -639,7 +644,7 @@ function onManualWalletConfirm() {
 .mm-info{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;}
 .mm-card{border:1px solid var(--border);border-radius:16px;padding:16px;}
 .mm-card-label{font-size:12px;color:#64748b;margin-bottom:6px;}
-.mm-card-title{font-weight:600;}
+ .mm-card-title{font-weight:600;color:#FFFFFF;}
 .mm-card-sub{font-size:12px;color:#64748b;margin-top:4px;}
 
 /* Tabs */
@@ -650,7 +655,7 @@ function onManualWalletConfirm() {
 
 /* 网络栏 */
 .mm-networkbar{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
-.mm-net-left{font-weight:600;}
+.mm-net-left{font-weight:600;color:#FFFFFF}
 .mm-icon{color:#475569}
 
 /* Sort menu */
@@ -664,7 +669,7 @@ function onManualWalletConfirm() {
 .mm-token{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
 .mm-token:last-child{border-bottom:none;}
 .mm-token-left{display:flex;align-items:center;gap:12px;}
-.mm-token-icon{width:36px;height:36px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#1f2937;}
+ .mm-token-icon{width:36px;height:36px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#FFFFFF;}
 .mm-eth{background: radial-gradient(100% 100% at 30% 20%, #cfe3ff 0%, #b9c8ff 40%, #9db4ff 100%);}
 .mm-token-title{font-weight:600;}
 .mm-dim{color:#94a3b8;}
@@ -683,7 +688,12 @@ function onManualWalletConfirm() {
 .mm-toast{position:fixed;left:50%;top:64px;transform:translateX(-50%);background:rgba(15,23,42,.92);color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.25);z-index:50;font-size:14px}
 
 /* 自定义代币输入样式 */
-.mm-custom{margin-top:12px}
+.mm-custom{
+  margin-top:12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px 12px 20px;
+}
 .mm-custom-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .mm-note{color:var(--muted);font-size:13px}
 .mm-input{height:36px;border:1px solid var(--border);border-radius:10px;padding:0 10px;outline:none}

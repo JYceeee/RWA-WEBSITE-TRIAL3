@@ -94,3 +94,29 @@ export default {
   methods: { notify(msg){ this.$emit('notify', msg) } }
 }
 </script>
+
+<style scoped>
+.faq-grid {
+  background: #141426;
+  border-radius: 16px;
+  padding: 32px 24px;
+}
+.faq-item {
+  background: #0A0A19;
+  border-radius: 12px;
+  padding: 18px 16px;
+}
+.faq-cta {
+  background: #141426;
+  border-radius: 16px;
+  padding: 28px 20px;
+}
+.wallet-grid {
+  background: #141426;
+  border-radius: 16px;
+  padding: 32px 24px;
+}
+.section.wallet {
+  background: #0A0A19;
+}
+</style>
