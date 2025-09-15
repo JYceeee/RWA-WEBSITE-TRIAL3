@@ -78,10 +78,10 @@ export default {
 
         if (data.status === 0) {
           // 1) 保存 token（可能已含 "Bearer " 前缀）
-          if (data.token) {
-            localStorage.setItem('token', data.token);
-            axios.defaults.headers.common['Authorization'] = data.token; // 不要重复拼 Bearer
-          }
+          //if (data.token) {
+            //localStorage.setItem('token', data.token);
+            //axios.defaults.headers.common['Authorization'] = data.token; // 不要重复拼 Bearer
+          //}
           // 记住邮箱（可选）
           if (this.remember) localStorage.setItem('remember_email', this.user_email);
 
