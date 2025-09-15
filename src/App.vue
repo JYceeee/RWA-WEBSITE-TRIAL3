@@ -5,7 +5,7 @@
     <main class="page-wrap">
       <router-view />
     </main>
-    <AppFooter />
+  <AppFooter v-if="!isAuthPage" />
   </div>
 </template>
 
@@ -25,10 +25,28 @@ import DetailPage from './views/DetailPage.vue'
 
 export default {
   name: 'App',
-  components: { AppHeader, AppFooter, HomeView, ProjectsView, LoginView, SignupView, ProfileView, WalletView, PortfolioView, kycService, DetailPage },
+  components: { 
+    AppHeader, 
+    AppFooter, 
+    HomeView, 
+    ProjectsView, 
+    LoginView, 
+    SignupView, 
+    ProfileView, 
+    WalletView, 
+    PortfolioView, 
+    kycService, 
+    DetailPage 
+  },
   data(){
     return { 
       user: null
+    }
+  },
+  computed: {
+    isAuthPage() {
+      const path = this.$route.path;
+      return path === '/login' || path === '/signup';
     }
   },
   methods: {

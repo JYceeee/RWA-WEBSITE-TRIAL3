@@ -7,6 +7,7 @@ import DetailPage from '../views/DetailPage.vue'
 import ProfileView from '../views/ProfileView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignupView from '../views/SignupView.vue'
+// import EmailVerifyView from '../views/EmailVerifyView.vue'
 import kycService from '../components/kycService.vue'
 import BuySellView from '../views/BuySellView.vue'
 import SwapView from '../views/SwapView.vue'
@@ -32,7 +33,8 @@ const router = createRouter({
     { path: '/token/:address', name: 'tokenDetail', component: TokenDetailView, props: true },
     { path: '/profile', name: 'profile', component: ProfileView },
     { path: '/login', name: 'login', component: LoginView },
-    { path: '/signup', name: 'signup', component: SignupView },
+  { path: '/signup', name: 'signup', component: SignupView },
+  // { path: '/email-verify', name: 'emailVerify', component: EmailVerifyView },
     { path: '/kycService', component: kycService },
   ],
 })

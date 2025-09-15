@@ -26,26 +26,25 @@
               v-model="searchText"
             />
             <button type="button" class="search-toggle" @click="toggleSearch">
-              <img src="/icons/search-icon.png" alt="Search" />
-            </button>
+              <!-- <img src="/icons/search-icon.png" alt="Search" /> -->
+            🔍</button>
           </form>
         </div>
       
       <!-- User Auth Buttons -->
-        <!-- <template v-if="isLoggedIn"> -->
+        <template v-if="isLoggedIn">
           <button class="btn orange pill" @click.prevent="go('/wallet')">
             <img class="btn-icon" src="/icons/login-wallet-icon.png" alt="" />
             <span>Wallet</span>
           </button>
-
           <button class="btn light pill" @click.prevent="go('/profile')">
             <img class="btn-icon" src="/icons/user.png" alt="" />
           Profile</button>
-      <!-- </template> -->
-      <!-- <template v-else>
-        <a class="btn ghost" href="#" @click.prevent="navigate('login')">Log in</a>
-        <a class="btn orange" href="#" @click.prevent="navigate('signup')">Sign up</a>
-      </template> -->
+        </template>
+        <template v-else>
+          <a class="btn ghost" href="#" @click.prevent="go('/login')">Log in</a>
+          <a class="btn orange" href="#" @click.prevent="go('/signup')">Sign up</a>
+        </template>
       </div>
     </div>
   </header>
@@ -56,11 +55,38 @@ export default {
   name: 'AppHeader',
   props: {},
   data(){
-    return { searchOpen: false, searchText: '' }
+    return { searchOpen: false, searchText: '', isLoggedIn: false }
   },
+//  created() {
+//     // 页面首次进来，同步一次登录态 + 恢复全局 Authorization 头
+//     this.refreshAuth();
+//   },
+//   watch: {
+//     // 每次路由切换时，重读 localStorage，做到“无刷新切换”
+//     $route() {
+//       this.refreshAuth();
+//     }
+//   },
   methods: {
     noop(){},
-    go(path){ this.$router.push(path); this.closeSearch(); },
+    go(path){
+      this.$router.push(path);
+      this.closeSearch();
+    },
+    // refreshAuth() {
+    //   const logged = localStorage.getItem('isLoggedIn') === 'true';
+    //   this.isLoggedIn = logged;
+
+    //   const token = localStorage.getItem('token');
+    //   if (logged && token) {
+    //     axios.defaults.headers.common['Authorization'] = token;
+    //   } else {
+    //     delete axios.defaults.headers.common['Authorization'];
+    //   }
+    // },
+    checkLogin(){
+      this.isLoggedIn = !!localStorage.getItem('token');
+    },
     toggleSearch(){
       this.searchOpen = !this.searchOpen
       this.$nextTick(()=>{ if(this.searchOpen && this.$refs.searchInput) this.$refs.searchInput.focus() })
@@ -98,10 +124,20 @@ export default {
       return addr.slice(0, 6) + "..." + addr.slice(-4);
     }
   },
-  mounted(){ document.addEventListener('click', this.onDocClick) },
-  beforeUnmount(){ document.removeEventListener('click', this.onDocClick) }
+  mounted(){
+    document.addEventListener('click', this.onDocClick);
+    this.checkLogin();
+    window.addEventListener('storage', this.checkLogin);
+    // 页面刷新时也能保持状态
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  },
+  beforeUnmount(){
+    document.removeEventListener('click', this.onDocClick);
+    window.removeEventListener('storage', this.checkLogin);
+  }
 }
 </script>
+
 <style scoped>
 .icon-btn {
   margin-right: 10px;

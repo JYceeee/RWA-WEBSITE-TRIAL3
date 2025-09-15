@@ -84,6 +84,8 @@
       <div class="actions bottom">
         <button class="btn light" type="button" @click="onCancel">Cancel</button>
         <button class="btn orange" type="submit">Save</button>
+        <!-- 新增：安全退出 -->
+        <button class="btn light" type="button" @click="logout" style="margin-left:auto;">Log out</button>
       </div>
     </form>
   </section>
@@ -222,8 +224,22 @@ export default {
       if (this.form.email && !this.emailVerified)
         return this.$emit('notify','Please verify your email before saving.')
       this.$emit('notify','Profile saved (demo)')
-    }
+    },
+
+    logout() {
+    // 1) 清理本地状态
+    localStorage.removeItem('token');
+    localStorage.removeItem('isLoggedIn');
+    delete axios.defaults.headers.common['Authorization'];
+
+    // 2) 友好提示（可选）
+    this.$emit('notify','You have logged out.');
+
+    // 3) 跳转到登录页
+    this.$router.push('/login');
+    // 不需要 location.reload()，Header 会因路由变化而刷新按钮
   }
+}
 }
 </script>
 
