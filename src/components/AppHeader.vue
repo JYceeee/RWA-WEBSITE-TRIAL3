@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { isLoggedIn, clearAuth, AUTH_CHANGED_EVENT } from '@/utils/auth';
 export default {
   name: 'AppHeader',
   props: {},
@@ -85,8 +86,13 @@ export default {
     //   }
     // },
     checkLogin(){
-      this.isLoggedIn = !!localStorage.getItem('token');
+      this.isLoggedIn = isLoggedIn();
     },
+    logout(){
+      clearAuth();
+      this.$router.push('/login');
+    },
+
     toggleSearch(){
       this.searchOpen = !this.searchOpen
       this.$nextTick(()=>{ if(this.searchOpen && this.$refs.searchInput) this.$refs.searchInput.focus() })
@@ -127,13 +133,14 @@ export default {
   mounted(){
     document.addEventListener('click', this.onDocClick);
     this.checkLogin();
-    window.addEventListener('storage', this.checkLogin);
+    // 监听自定义的 auth 变更事件（同页可用）
+    window.addEventListener(AUTH_CHANGED_EVENT, this.checkLogin);
     // 页面刷新时也能保持状态
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    this.isLoggedIn = isLoggedIn();
   },
   beforeUnmount(){
     document.removeEventListener('click', this.onDocClick);
-    window.removeEventListener('storage', this.checkLogin);
+    window.removeEventListener(AUTH_CHANGED_EVENT, this.checkLogin);
   }
 }
 </script>

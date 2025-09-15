@@ -1,7 +1,7 @@
 <template>
   <div class="auth-card">
     <!-- 简单弹窗 -->
-    <div v-if="showModal" class="modal-mask">
+    <!-- <div v-if="showModal" class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <h3>{{ modalTitle }}</h3>
@@ -9,7 +9,7 @@
           <button class="btn orange" @click="handleModalAction">{{ modalButtonText }}</button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="auth-logo"><img src="/icons/RWA-logo.png" alt="Mortgage RWA" /></div>
     <h1 class="auth-title">Create an account</h1>
@@ -37,16 +37,16 @@
         </label>
       </div>
 
-      <button class="btn orange auth-submit" type="submit" :disabled="loading || !agree">
+      <button class="btn orange auth-submit" type="submit" :disabled="loading || !agree" >
         {{ loading ? 'Creating...' : 'Get started' }}
       </button>
 
-      <div class="auth-or"><span>OR</span></div>
+      <div class="auth-or"><span>OR</span></div> -->
 
       <!-- 第三方按钮先保留占位，避免 404 静态路径 -->
-      <button class="btn auth-social" type="button">Sign up with Google</button>
+      <!-- <button class="btn auth-social" type="button">Sign up with Google</button>
       <button class="btn auth-social" type="button">Sign up with Facebook</button>
-      <button class="btn auth-social" type="button">Sign up with Apple</button>
+      <button class="btn auth-social" type="button">Sign up with Apple</button> -->
 
       <p class="auth-alt">
         Already have an account?
@@ -58,6 +58,7 @@
 
 <script>
 import axios from 'axios';
+import { setAuth } from '@/utils/auth';
 
 export default {
   name: 'SignupView',
@@ -66,14 +67,14 @@ export default {
     return {
       user_email: '',
       user_password: '',
-      agree: true,
       loading: false,
-
-      showModal: false,
-      modalTitle: '',
-      modalMessage: '',
-      modalButtonText: '',
-      modalAction: null
+      agree: false,
+      isLoggedIn: false,
+      // showModal: false,
+      // modalTitle: '',
+      // modalMessage: '',
+      // modalButtonText: '',
+      // modalAction: null
     };
   },
   methods: {
@@ -90,39 +91,49 @@ export default {
       try {
         const { data } = await axios.post(
           import.meta.env.VITE_API_SIGNUP_URL,
-          {
-            user_email: this.user_email,
-            user_password: this.user_password
-          },
+          { user_email: this.user_email, user_password: this.user_password },
           { headers: { 'Content-Type': 'application/json' } }
         );
 
-        // 按后端约定：status === 0 表示成功
         if (data.status === 0) {
-          this.modalTitle = 'Signup Successful';
-          this.modalMessage = data.message || 'You can log in now.';
-          this.modalButtonText = 'Go to Login';
-          this.modalAction = () => {
-            this.showModal = false;
-            this.$router.push('/login');
-          };
-        } else {
+          // 注册成功 → 立即登录
+          const loginRes = await axios.post(
+            import.meta.env.VITE_API_LOGIN_URL,
+            { user_email: this.user_email, user_password: this.user_password },
+            { headers: { 'Content-Type': 'application/json' } }
+          );
+
+          if (loginRes.data?.status === 0 && loginRes.data?.token) {
+            // 统一用工具设置登录态 & Header
+            // setAuth(loginRes.data.token);
+            // 跳转到 /home（或你的主页）
+            localStorage.setItem('isLoggedIn', 'true');
+            this.$router.push('/home');
+          } else {
+            this.modalTitle = 'Auto Login Failed';
+            this.modalMessage = loginRes.data?.message || 'Auto login failed, please try again.';
+            this.modalButtonText = 'Close';
+            this.modalAction = () => { this.showModal = false; };
+            this.showModal = true;
+          }
+          } else {
+            this.modalTitle = 'Signup Failed';
+            this.modalMessage = data.message || 'Signup failed, please try again.';
+            this.modalButtonText = 'Close';
+            this.modalAction = () => { this.showModal = false; };
+            this.showModal = true;
+          }
+        } catch (error) {
           this.modalTitle = 'Signup Failed';
-          this.modalMessage = data.message || 'Signup failed, please try again.';
+          this.modalMessage = error?.response?.data?.message || 'Network error, please try again later.';
           this.modalButtonText = 'Close';
           this.modalAction = () => { this.showModal = false; };
-        }
-        this.showModal = true;
-      } catch (error) {
-        this.modalTitle = 'Signup Failed';
-        this.modalMessage = error?.response?.data?.message || 'Network error, please try again later.';
-        this.modalButtonText = 'Close';
-        this.modalAction = () => { this.showModal = false; };
-        this.showModal = true;
-      } finally {
-        this.loading = false;
+          this.showModal = true;
+        } finally {
+          this.loading = false;
       }
     },
+
     handleModalAction() {
       if (typeof this.modalAction === 'function') this.modalAction();
       else this.showModal = false;
